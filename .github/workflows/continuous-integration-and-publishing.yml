@@ -121,9 +121,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
 
       - name: Run Tests
-        uses: ./.github/actions/run-ci-compose
-        with:
-          service-name: tests
+        run: env 'INPUT_SERVICE-NAME=tests' node dist/index.js
 
   release_build:
     name: Build Release
@@ -231,8 +229,6 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
 
       - name: Publish Package
-        uses: ./.github/actions/run-ci-compose
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        with:
-          service-name: publisher
+        run: env 'INPUT_SERVICE-NAME=publisher' node dist/index.js
